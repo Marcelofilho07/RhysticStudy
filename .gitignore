@@ -1,1 +1,13 @@
 ﻿.idea
+CppStudy.sln
+x64/Debug/CppStudy.pdb
+*.exe
+*.filters
+*.vcxproj
+*.tlog
+*.obj
+*.recipe
+*.ilk
+*.idb
+*.pdb
+*.log
