@@ -1,6 +1,8 @@
 ﻿#include "BackToBasics.h"
 #include <string>
 #include <iostream>
+#include <map>
+
 #include "Integer.h"
 
 void UniforInitialization()
@@ -145,3 +147,185 @@ int RSum(const int& a, const int& b) //Using pass by reference accepts l-values 
 {
     return a + b;
 }
+
+void AutoKeyword()
+{
+    /*
+     * In C++11 allows the compiler to infer the data type from the initializer
+     * Needs an initializer!
+     * Initializing an auto from a const value doesn't makes the auto variable const. It needs to be declared as const.
+     * If it is a reference or a pointer for a const value it will hold its constness!
+     * But auto will never deduce &(reference)
+     * Auto will never perform a conversion, eliminating any accidental conversion! (Great for range based for loops!)
+     */
+
+    auto x = 10; //x is a int;
+
+    auto i = Integer{}; // i is an object of type I
+
+    auto sum = RSum(x, 2); //
+
+    const int p = 10;
+    auto pen1 = p; // a copy! So no constness deduced!
+    const auto pen2 = p;
+    auto& penRef = p;
+    pen1 = 2; //Allowed
+    //pen2 = 3; //Cannot assign to readonly type 'const int'
+    //penRef = 4; //Cannot assign to readonly type 'const int'
+    
+    int& funRef = x;
+
+    auto isItaRef = x; //this is a copy
+
+    auto pointer = &x; //a pointer to an int. No Need for *
+
+    auto* pointer2 = &x; // but if * used, the initializer need to be a pointer!
+
+    
+    const std::map<std::string, std::string> a;
+    
+    for(const auto& ele : a)
+    {
+        /* This is the same as const std::pair<const std::string, std::string>&
+         * Usually people may forget the const keyword in the first pair parameter,
+         * this will perform a conversion causing more lines of code.
+         * So preferring auto in for loops can assure you don't have any accidental conversions.
+         * Also remember to use & and const since, & are never deduced and constness will only be deduced from reference or pointers! 
+         */
+    }
+    
+    /* In C++20, auto uses the same exact rules as template type parameters
+     * So both declaration below are the same.
+     * template <typename T> void FunFunction(T param);
+     * void FunFunction(auto param);
+     */
+}
+
+void FunctionOverload()
+{
+    /* Allows us to create functions with same name, but with different parameters.
+     *
+     * void func(int x);
+     *
+     * void func(float x);
+     * 
+     * For pointers and & qualifiers, as const, participate in overload
+     *
+     * void func(int& x) this accepts a l-value reference
+     * and
+     * void func(const int& x)  this accepts a r-value reference
+     * are overloaded
+     *
+     * void func(int* x) this accepts a pointer of type int
+     * and
+     * void func(const int* x) this accepts a pointer of type const int
+     * are overloaded
+     * 
+     * Return type is ignored!
+     * For member functions, qualifiers participate in overload! You can use const to overload functions in this case!
+     *
+     * The correct implementation is chosen based on the arguments!
+     * This is done in compile-time through
+     *
+     * NAME MANGLING!
+     * 
+     * Name Mangling generates an unique name for each overload function allowing the linker to link the call with the correct function.
+     * for example, our func have 2 different names inside the link map. The first might be func#i and the last func#f.
+     *
+     */
+
+    int x = 10;
+    int y = 15;
+    const int z = 20;
+    Sum(x, y); // int& a, int& b
+    Sum(x, z); // const int& a, const int& b
+    Sum(x, 5); // const int& a, const int& b
+    Sum(2, 5); // const int& a, const int& b
+}
+
+int Sum(int& a, int& b) //Using pass by reference only accepts l-values
+{
+    std::cout << "int& a, int& b" << std::endl;
+    return a + b;
+}
+
+int Sum(const int& a, const int& b) //Using pass by reference accepts l-values and r-values
+{
+    std::cout << "const int& a, const int& b" << std::endl;
+    return a + b;
+}
+
+void DefaultFunctionArguments()
+{
+    /*
+     * Allows some of all function arguments to have a default value if none is given.
+     * Default values must be declared starting from the left.
+     * int MultiplyThreeNumbers(const int& a, const int& b = 8, const int& c = 5);
+     * here b and c have a default value of 8 and 5;
+     * so we can call the function without declaring all parameters as shown in the example below
+     */
+
+    std::cout << MultiplyThreeNumbers(3,3,3) << std::endl;
+    std::cout << MultiplyThreeNumbers(3,3) << std::endl;
+    std::cout << MultiplyThreeNumbers(3) << std::endl;
+}
+
+int MultiplyThreeNumbers(const int& a, const int& b, const int& c)
+{
+    /*
+     * this definition doesn't have the default values since it would be a "Redefinition of default argument"
+     * we can also declare those default values here instead in the header file declaration,
+     * but we would need to place this definition before the function above, since it would be looking for the original
+     * declaration without the default values.
+     */
+    
+    return a * b * c;
+}
+
+void InlineFunctions()
+{
+    /*
+     * We can use the inline keyword to request the compiler to replace the function call with the body of the function!
+     *
+     * No need for stack memory for arguments
+     * No need to save the return address of the function
+     * 
+     * Mark functions in the definition of the function in the header file.
+     * Remember, this is requesting the compiler, we are not forcing it to avoid the function call. The final decision is up
+     * to the compiler!
+     *
+     * Reasons the compiler might not accept your inline request:
+     *  - large function
+     *  - too many conditional statements
+     *  - recursive function
+     *  - function invoked through pointers
+     *
+     *
+     *  Many optimizers already inline functions without the need of using this keyword.
+     *  Use inline when you have a header file with multiple translations unity to avoid linking errors TODO: check this!
+     */
+
+    std::cout << InlineSum(2, 3) << std::endl;
+}
+
+void FunctionPointer()
+{
+    /*
+     * A pointer that holds the address of a function
+     * The signature of the pointers is the same as the function.
+     * Can be used to invoke functions even without knowing their name.
+     * Very useful for observer patterns, subscribing a list of functions to a event.
+     *
+     * <returnType> (*ptrName)(args) = &func
+     * int (*ptrAdd)(int,int) = &Add
+     */
+
+    int (*ptrSum)(const int&, const int&) = Sum; //The & is optional!
+
+    // We can invoke the function those two ways.
+    
+    std::cout << (*ptrSum)(3, 4) << std::endl;
+    std::cout << ptrSum(5,10) << std::endl;
+}
+
+

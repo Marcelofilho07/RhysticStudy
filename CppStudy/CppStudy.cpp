@@ -5,9 +5,12 @@
 
 int main()
 {
-    UniforInitialization();
-    Pointers();
-    Reference();
-    std::cout << ConstKeyword() << std::endl;
+    //UniforInitialization();
+    //Pointers();
+    //Reference();
+    //std::cout << ConstKeyword() << std::endl;
+    //FunctionOverload();
+    //DefaultFunctionArguments();
+    FunctionPointer();
     return 0;
 }
