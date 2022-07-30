@@ -67,11 +67,24 @@ void Reference()
      * It is not a new variable. It's an alias!
      * No storage required.
      * Must be initialized! Instead of pointers, won't compile if passing nullptr so it's better for safety!
+     * Once a reference is created, it cannot be later made to reference another object; it cannot be reseated. This is often done with pointers.
      */
 
     //x and ref are now bounded. If I change the value in ref it also changes in x. The opposite is also true.
     int x = 10; //Referent
     int &ref = x; //Reference
+
+    /*
+     * Under the hood, in most compilers, references have the same implementation as a pointer, but the compiler treat then differently.
+     * Applying all needed protection whenever you're using a reference.
+     * a previously-valid reference only becomes invalid in two cases:
+     * 
+     * If it refers to an object with automatic allocation which goes out of scope,
+     * If it refers to an object inside a block of dynamic memory which has been freed.
+     * 
+     * The first is easy to detect automatically if the reference has static scoping, but is still a problem if the reference is a member of a dynamically allocated object;
+     * the second is more difficult to detect. These are the only concerns with references, and are suitably addressed by a reasonable allocation policy.
+     */
 }
 
 int ConstKeyword()
@@ -80,7 +93,7 @@ int ConstKeyword()
      * Whenever const keyword is attached with any method(), variable, pointer variable, and with the object of a class it prevents that specific object/method()/variable to modify its data items value
      * const variables MUST be initialized
      * useful for keeping your code safe and preventing other programmers to change values that should not be changed.
-     * can be "changed" using const_cast<T>()
+     * can be "changed" using const_cast<T>()(more on that later)
      */
     
     const int c1 = 10; // cInteger can not be changed afterwards.
@@ -112,13 +125,26 @@ int ConstKeyword()
     //*ptr3 = 2; not allowed since *ptr3 is supposed to be a const int type;
     p3 = 4; // but as usual we can change the value directly without problem;
 
-    /* For references we can use the const qualifier to pass a r-value(literals) to it instead of a l-value;
+    /*
+     * For references, const makes the alias readonly,
+     * but you can still change the original variable value;
+     */
+    const int& ref2 = x;
+    x += 10; // allowed since x isn't const;
+    //ref2 += 20; not allowed since ref2 is const type
+    
+    /*
+     * [IMPORTANT]
+     * Also, we can use the const qualifier to pass a r-value(literals) to it instead of a l-value;
      * this is useful to pass rvalues to functions
      * as for examples a function LSum(int &a, int &b) would only accept lvalues;
      * but a function RSum(const int &a, const int &b) accept both.
      */
+    
     const int& ref = 30;
 
+    
+    
     //int return1 = LSum(10, 30); not allowed since we're passing rvalues;
     int return1 = LSum(p1, p2); 
     int return2 = RSum(10, 30);

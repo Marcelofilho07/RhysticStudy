@@ -3,9 +3,13 @@
 class Integer
 {
 public:
-    int a;
+    int value;
 
     Integer();
+
+    Integer(int i);
+
+    ~Integer();
 
     void Print() const;
 

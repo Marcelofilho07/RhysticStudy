@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "BackToBasics.h"
+#include "TolarianAcademy.h"
 
 int main()
 {
@@ -12,5 +13,6 @@ int main()
     //FunctionOverload();
     //DefaultFunctionArguments();
     FunctionPointer();
+    ClassAndStruct();
     return 0;
 }
