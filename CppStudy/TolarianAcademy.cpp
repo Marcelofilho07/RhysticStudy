@@ -10,6 +10,7 @@ void ClassAndStruct()
      * like data structures, they can contain data members, but they can also contain functions as members.
      * it is declared with keyword "class" or "struct"
      * the only difference between "class" and "struct" in C++ is that "class" have their member variable and functions as private by default and "struct" as public.
+     * Structs are used to implement function objects.
      * programmers tend to use struct only for data structures data hold only variables and classes for more complex data structures with functions.(this is not a rule)
      *
      * class <name>
@@ -107,4 +108,104 @@ void Destructor()
      *
      * 
      */
+}
+
+void NonStaticDataMemberInitializer()
+{
+    /*
+     * [C++11 Feature]
+     * We can initialize member variables inside a class without a constructor to ensure our member variable are always initialized.
+     * The compiler generates initialization code and insert it inside constructors.
+     * User-defined initializers take precedence.
+     * CAN NOT USE AUTO!
+     * 
+     * Example:
+     * class ExampleClass
+     * {
+     *      int x{0};
+     *      int y = 2;
+     * }
+     */
+}
+
+void ThisPointer()
+{
+    /*
+     * this is a keyword.
+     * it's a hidden pointer holding the address of the owner object.
+     * Need to be used inside a non-static member function
+     */
+}
+
+void StaticMemberVariables()
+{
+    /*
+     * Member variables qualified with the static keyword are not bounded to class instances.
+     * The name of any static data member and static member function must be different from the name of the containing class.
+     * Static members of a class are not associated with the objects of the class:
+     * they are independent variables with static or thread (since C++11) storage duration.
+     * Static Storage duration: Its lifetime is the entire execution of the program and its stored value is initialized only once, prior to program startup.
+     *
+     * Must be initialized outside of the class.
+     * 
+     * class X
+     * {
+     *      static int number;
+     * };
+     * int X::number = 10;
+     *
+     * If you want to initialize inside class you can use "inline" [C++17 Feature]
+     *
+     * Class X
+     * {
+     *      inline static int number = 10;
+     * };
+     *
+     * or you can use const
+     *
+     * Class X
+     * {
+     *      const static int number = 10;
+     * };
+     *
+     * or use constexpr, but it need to be initialized with an initializer in which every expression is a constant expression, right inside the class definition [C++11 Feature]
+     *
+     * Class X
+     * {
+     *      constexpr static int number = 10; // OK
+     *      constexpr static int arr[] = { 1, 2, 3 }; // OK
+     *      constexpr static int number3; // Error: constexpr static requires an initializer
+     * };
+     * 
+     */
+}
+
+void StaticMemberFunctions()
+{
+    /*
+     * Similar to static member variables, but for functions
+     * Can't access non-static member functions
+     * Can be invoked directly through class name
+     * They have no 'this' pointer
+     * They can NOT be virtual, const, volatile.
+     * The address of a static member function may be stored in a regular pointer to function, but not in a pointer to member function.
+     *
+     * Class X
+     * {
+     *      static void SayHello();
+     * };
+     *
+     * X::SayHello()
+     * {
+     *      std::cout << "Hello World!" << std::endl;
+     * }
+     *
+     * To invoke just call it from anywhere in the program:
+     * X::SayHello();
+     */
+}
+
+void CopyConstructor()
+{
+    //TODO: CONTINUE HERE!
 }

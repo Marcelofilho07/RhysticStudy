@@ -4,14 +4,14 @@
 #include "BackToBasics.h"
 #include "TolarianAcademy.h"
 
+struct X
+{
+    constexpr static int number = 10;
+};
+
+    
 int main()
 {
-    //UniforInitialization();
-    //Pointers();
-    //Reference();
-    //std::cout << ConstKeyword() << std::endl;
-    //FunctionOverload();
-    //DefaultFunctionArguments();
     FunctionPointer();
     ClassAndStruct();
     return 0;
