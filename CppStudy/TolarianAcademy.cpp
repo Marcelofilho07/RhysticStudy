@@ -207,5 +207,132 @@ void StaticMemberFunctions()
 
 void CopyConstructor()
 {
-    //TODO: CONTINUE HERE!
+    /*
+     * A copy constructor of class T is a non-template constructor whose first parameter
+     * is T&, const T&, volatile T&, or const volatile T&, and either there are
+     * no other parameters, or the rest of the parameters all have default values.
+     *
+     * The copy of an object is created whenever an object is passed by value in a function,
+     * when the function returns the object by value or when you manually create a copy of the variable:
+     *
+     * initialization: T a = b; or T a(b);, where b is of type T;
+     * function argument passing: f(a);, where a is of type T and f is void f(T t);
+     * function return: return a; inside a function such as T f(), where a is of type T, which has no move constructor.
+     *
+     * The compiler can implicit generate a copy constructor to us.
+     *
+     * This causes 
+     * Whenever you're copying an object there are two possible copying outcomes, a shallow copy or a deep copy.
+     *
+     * Shallow Copy:
+     * int* a = new int(10);
+     * int* b = a;
+     *
+     * We're copying the pointer itself, not the value deep inside it. They both point to the same value in memory.
+     *
+     * Deep Copy:
+     *
+     * int* a = new int(10);
+     * int* b = new int(*a);
+     *
+     * Now we're copying the value a points to a allocating new memory space for b.
+     *
+     * Rule of 3:
+     *
+     * you should define all if you implement any of then:
+     * Destructor (free resources)
+     * Copy Constructor (Deep Copy)
+     * Copy Assignment (Deep Copy)
+     * Not implementing this may lead to memory leaks or shallow copy.
+     * 
+     */
 }
+
+void DelegatingConstructors()
+{
+	/*
+	 * [C++11 Feature]
+	 *
+	 * It's possible to delegate constructors others using the initialization list reuse code.
+	 * Check the example below:
+	 *
+	 * Car()
+	 * {
+	 *		fuel = 0;
+	 *		doors = 0;
+	 * }
+	 *
+	 * Car(float amount)
+	 * {
+	 *		fuel = amount;
+	 *		doors = 0;
+	 * }
+	 *
+	 * Car(float amount, int doorsNum)
+	 * {
+	 *		fuel = amount;
+	 *		doors = doorsNum;
+	 * }
+	 *
+	 * Could be written as:
+	 *
+	 * Car(): Car(0)
+	 * {
+	 * 
+	 * }
+	 *
+	 * Car(float amount): Car(amount, 0)
+	 * {
+	 * }
+	 *
+	 * Car(float amount, int doorsNum)
+	 * {
+	 * 		fuel = amount;
+	 * 		doors = doorsNum;
+	 * 	}
+	 */
+}
+
+void DefaultAndDeleteKeywords()
+{
+	/*
+	 * By default the compiler synthesize a constructor and destructor for us. But if you declare your own parametrized
+	 * constructor, destructor or copy constructor the compiler won't synthesize a constructor. If you still want the compiler
+	 * to synthesize a
+	 * 
+	 * CONSTRUCTOR
+	 * DESTRUCTOR
+	 * COPY CONSTRUCTOR
+	 * ASSIGNMENT OPERATOR
+	 *
+	 * use must the default keyword:
+	 *
+	 * Integer() = default;
+	 *
+	 * ~Integer() = default;
+	 *
+	 * Integer(const Integer&) = default; (this isn't needed since the compiler will in most cases synthesize one for us,
+	 * but there are some cases where this is needed and will see it later)
+	 *
+	 * The delete keyword would be the opposite of default. When you want the user to be blocked of using certain types of constructor
+	 * you can use the delete keyword to block the compiler to synthesize this constructor.
+	 *
+	 * Integer(const Integer&) = delete; This will forbid the use of copy constructor;
+	 *
+	 * to forbid this object of being copied we can also delete the assignment operator;
+	 *
+	 * Integer operator=() = delete;
+	 *
+	 * delete can be used in any function, for example
+	 *
+	 * void SetValue(int a);
+	 *
+	 * void SetValue(float) = delete;
+	 *
+	 * the user now can't pass a float value to SetValue;
+	 */
+}
+
+
+
+

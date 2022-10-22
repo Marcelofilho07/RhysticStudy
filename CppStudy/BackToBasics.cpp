@@ -160,7 +160,6 @@ int ConstKeyword()
     myObj.Print();
     //myObj.a = 10; not allowed to change any member variable.
     //myObj.NonConstPrint(); trying to access no const member function.
-    
     return RSum(myObj.GetValue(), *ptr1);
 }
 
@@ -189,6 +188,8 @@ void AutoKeyword()
 
     auto i = Integer{}; // i is an object of type I
 
+	i.SetValue(10);
+	//i.SetValue(10.f); deleted function
     auto sum = RSum(x, 2); //
 
     const int p = 10;

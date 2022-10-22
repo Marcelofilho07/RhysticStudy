@@ -15,3 +15,7 @@ void StaticMemberVariables();
 void StaticMemberFunctions();
 
 void CopyConstructor();
+
+void DelegatingConstructors();
+
+void DefaultAndDeleteKeywords();

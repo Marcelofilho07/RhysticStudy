@@ -3,17 +3,31 @@
 class Integer
 {
 public:
-    int value;
+    int value = 0;
 
-    Integer();
+    int* valuePtr = nullptr;
+
+    Integer() = default;
 
     Integer(int i);
 
     ~Integer();
+
+    Integer(const Integer& obj);
+    
+    Integer& operator=(const Integer& obj) noexcept;
+
+    Integer(Integer&& obj) noexcept;
+
+    Integer& operator=(Integer&& obj) noexcept;
 
     void Print() const;
 
     int GetValue() const;
 
     void NonConstPrint();
+
+    void SetValue(int a);
+    
+    void SetValue(float) = delete;
 };
