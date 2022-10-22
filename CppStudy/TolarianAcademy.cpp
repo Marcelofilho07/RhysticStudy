@@ -333,6 +333,147 @@ void DefaultAndDeleteKeywords()
 	 */
 }
 
+void AccessModifier()
+{
+	/*
+	 * There are 3 access modifiers
+	 *
+	 * public: public members are accessible through anyone.
+	 *
+	 * private: private members are only accessible by the class itself.
+	 *
+	 * protected: protected members are only accessible by the class itself and their children.
+	 *
+	 * We can use these modifiers when inheriting classes
+	 *
+	 * class Child : public Base
+	 *
+	 * all Base class attributes are inherited without changes
+	 *
+	 * class Child : private Base
+	 *
+	 * all Base class members are inherited as private, so they aren't accessible.
+	 *
+	 * class Child : protected Base
+	 *
+	 * Public and Protected class members are inherited as protected, so they only accessible by the class itself
+	 */
+}
+
+void InheritingConstructors()
+{
+	/*
+	 * By default, child classes don't inherit constructors, destructors and assignment operators.
+	 * [C++11 Feature]
+	 * but in C++11 we can inherit the constructors by using the "using" keyword
+	 *
+	 * class Child : public Base
+	 * {
+	 *		using Base::Base;
+	 * 
+	 * }
+	 */
+}
+
+void VirtualKeyword()
+{
+	/*
+	 * virtual keyword is used with functions inside classes to say it is virtual and supports dynamic dispatch.
+	 *
+	 * In other words it tell the compiler to properly check the function's owner type.
+	 *
+	 * class Base{
+	 * public:
+	 *     void Foo(){
+	 *         std::cout << "Base::Foo" ;
+	 *     }
+	 * };
+	 * class Derived : public Base{
+	 * public:
+	 *     void Foo(){
+	 *         std::cout << "Derived::Foo" ;
+	 *     }
+	 * } ;
+	 *  
+	 * int main(){
+	 *     Derived d{} ;
+	 *     Base *b = &d ;
+	 *     b->Foo() ;
+	 *     return 0 ;
+	 * }
+	 *
+	 * in this example, b->Foo() will print "Base::Foo" because b it's a pointer to Base.
+	 * if we add virtual to the base class declaration, the compiler will check if b points to
+	 * a Derived or Base object.
+	 *
+	 * class Base{
+	 * public:
+	 *     virtual void Foo(){
+	 *         std::cout << "Base::Foo" ;
+	 *     }
+	 * };
+	 * class Derived : public Base{
+	 * public:
+	 *     void Foo(){
+	 *         std::cout << "Derived::Foo" ;
+	 *     }
+	 * } ;
+	 *  
+	 * int main(){
+	 *     Derived d{} ;
+	 *     Base *b = &d ;
+	 *     b->Foo() ;
+	 *     return 0 ;
+	 * }
+	 *
+	 *
+	 *
+	 * This mechanism is what we call Polymorphism. It works through the Virtual Table and the Virtual Pointer and can only be accessed through
+	 * reference or pointers.
+	 * The VTable and the VPtr.
+	 *
+	 * When the compiler compiles a class with functions marked with the virtual keyword it will generate
+	 * an array containing the addresses of the virtual functions. This array is called a Virtual Table.
+	 * Only virtual functions appears in this table.
+	 * The initial address of this table is stored in a special member variable called Virtual Pointer.
+	 * This Virtual Pointer is automatically added to the class during construction by the compiler.
+	 *
+	 * When you inherit a class, their virtual table will contain all virtual functions from the base class,
+	 * but the overriden ones will properly have the address of the child class. The Virtual Pointer of the child class
+	 * will point to the beginning of the child class virtual table.
+	 *
+	 * When the users calls a virtual function the compiler has to generate some extra code compared to a normal function call.
+	 * First it will get the object address.
+	 * Second it will get the virtual pointer.
+	 * Third Find the position of the function in the VTable.
+	 * Get the address of the function.
+	 * And then invoke the proper function.
+	 *
+	 * A virtual pointer will increase the size of the class.
+	 *
+	 * When using a base class pointer with a child class it will not call the child class destructor.
+	 * So we should define the base class destructor as virtual.
+	 */
+}
+
+void OverrideAndFinalKeywords()
+{
+	/*
+	 * [C++11 Feature]
+	 * To prevent classes from being inherited we can use the "final" key word.
+	 *
+	 * class Base final
+	 * {
+	 *		//Implementation
+	 * }
+	 *
+	 * final can also be used in functions to prevent it of being overriden by child classes.
+	 *
+	 * The override keyword is a safe-check keyword to be used in functions that are supposed to override another function.
+	 * using it will make the compiler check if the function properly overrides a virtual class from a parent class and return a error otherwise.
+	 */
+}
+
 
 
 
